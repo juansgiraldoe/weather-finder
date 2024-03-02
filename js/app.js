@@ -21,9 +21,12 @@ function buscarClima(e) {
   };
 
   //Consultar la API.
-  consultarApi(ciudad, pais);
-  limpiarHtml();
-  formulario.reset();
+  spinner();
+  setTimeout(() => {
+    consultarApi(ciudad, pais);
+    limpiarHtml();
+    formulario.reset();
+  }, 1200);
 };
 
 function mostrarError(msj) {
@@ -46,16 +49,16 @@ function mostrarError(msj) {
 function consultarApi(ciudad, pais) {
   const appID = 'fae976e32114a3a34339af2ea64fd84b';
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad},${pais}&appid=${appID}`;
-  fetch(url)
-    .then(res => res.json())
-    .then(data => {
-      if (data.cod === '404') {
-        mostrarError('Ciudad no encontrada.');
-        return;
-      };
-      //Mostrar respuesta en el DOM.
-      mostrarClima(data);
-    });
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        if (data.cod === '404') {
+          mostrarError('Ciudad no encontrada.');
+          return;
+        };
+        //Mostrar respuesta en el DOM.
+        mostrarClima(data);
+      });
 };
 
 function mostrarClima(datos){
@@ -97,3 +100,18 @@ function limpiarHtml() {
 };
 
 const conversionGrados = grados => (grados - 273.15).toFixed(1);
+
+function spinner() {
+  limpiarHtml();
+  const divSpinner = document.createElement('DIV');
+  divSpinner.classList.add('sk-chase');
+  divSpinner.innerHTML = `
+  <div class="sk-chase-dot"></div>
+  <div class="sk-chase-dot"></div>
+  <div class="sk-chase-dot"></div>
+  <div class="sk-chase-dot"></div>
+  <div class="sk-chase-dot"></div>
+  <div class="sk-chase-dot"></div>
+  `;
+  resultado.appendChild(divSpinner);
+}
