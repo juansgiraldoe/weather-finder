@@ -59,16 +59,34 @@ function consultarApi(ciudad, pais) {
 };
 
 function mostrarClima(datos){
-  const { main:{temp, temp_max, temp_min} } = datos
+  const { main:{temp, temp_max, temp_min}, name } = datos
   const centigratos = conversionGrados(temp);
+  const max = conversionGrados(temp_max);
+  const min = conversionGrados(temp_min);
+
+  const title = document.createElement('P');
+  title.classList.add('text-xl');
+  title.innerHTML = `El clima en <strong>${name}</strong> hoy:`
 
   const actual = document.createElement('P');
   actual.innerHTML = `${centigratos} &#8451;`;
   actual.classList.add('font-bold', 'text-6xl');
+
+  const tempMax = document.createElement('P');
+  tempMax.innerHTML = `Maxima: <strong>${max} &#8451;</strong>`;
+  tempMax.classList.add('text-xl')
+  
+  const tempMin = document.createElement('P');
+  tempMin.innerHTML = `Minima: <strong>${min} &#8451;</strong>`;
+  tempMin.classList.add('text-xl')
   
   const resultadoDiv = document.createElement('DIV');
   resultadoDiv.classList.add('text-center', 'text-white');
+  resultadoDiv.appendChild(title);
   resultadoDiv.appendChild(actual);
+  resultadoDiv.appendChild(tempMax);
+  resultadoDiv.appendChild(tempMin);
+
   resultado.appendChild(resultadoDiv);
 };
 
